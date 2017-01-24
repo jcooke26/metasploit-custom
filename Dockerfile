@@ -8,6 +8,7 @@ WORKDIR /opt
 USER root
 
 # install Java
+RUN apt-get install software-properties-common python-software-properties
 RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get -y install oracle-java8-installer
 
