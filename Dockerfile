@@ -34,7 +34,7 @@ RUN /bin/bash -c "source ~/.rvm/scripts/rvm"
 RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc"
 RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-RUN sudo rvm install $RUBYVERSION
+RUN rvm install $RUBYVERSION
 RUN rvm use $RUBYVERSION --default
 RUN ruby -v
 
