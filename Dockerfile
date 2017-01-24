@@ -23,11 +23,11 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 
 
 # install Java
-RUN apt-get update
-RUN apt-get -y install software-properties-common python-software-properties
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-RUN apt-get -y install oracle-java8-installer
+#RUN apt-get update
+#RUN apt-get -y install software-properties-common python-software-properties
+#RUN add-apt-repository -y ppa:webupd8team/java
+#RUN apt-get update
+#RUN apt-get -y install oracle-java8-installer
 
 # run tmux when started
 
