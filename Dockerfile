@@ -7,6 +7,11 @@ FROM ubuntu:latest
 WORKDIR /opt
 USER root
 
+# add the user "seh" for later
+RUN useradd -m -s /bin/bash seh
+RUN apt-get update && apt-get -y install sudo
+RUN echo "seh ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 # install tmux as a viewer
 RUN apt-get update && apt-get -y install tmux
 
@@ -21,6 +26,19 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 #RUN add-apt-repository -y ppa:webupd8team/java
 #RUN apt-get update
 #RUN apt-get -y install oracle-java8-installer
+
+# install Ruby
+
+USER seh
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+RUN adducurl -L https://get.rvm.io | bash -s stable
+RUN source ~/.rvm/scripts/rvm
+RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
+RUN source ~/.bashrc
+RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+RUN sudo rvm install $RUBYVERSION
+RUN rvm use $RUBYVERSION --default
+RUN ruby -v
 
 # run tmux when started
 
