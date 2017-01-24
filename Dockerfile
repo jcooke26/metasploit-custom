@@ -11,6 +11,7 @@ USER root
 RUN apt-get update
 RUN apt-get -y install software-properties-common python-software-properties
 RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get update
 RUN apt-get -y install oracle-java8-installer
 
 # install tmux as a viewer
