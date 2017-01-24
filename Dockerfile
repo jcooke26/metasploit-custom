@@ -28,22 +28,30 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 
 # install Ruby
 USER seh
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-RUN curl -L https://get.rvm.io | bash -s stable
-RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-RUN /bin/bash -c "source ~/.rvm/scripts/rvm && echo \"source ~/.rvm/scripts/rvm\" >> ~/.bashrc && source ~/.bashrc && rvm install $RUBYVERSION && rvm use $RUBYVERSION --default && ruby -v"
-#RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
-#RUN /bin/bash -c "source ~/.bashrc"
-#RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-#RUN rvm install $RUBYVERSION
-#RUN rvm use $RUBYVERSION --default
-#RUN ruby -v
+WORKDIR /home/seh
+RUN git clone git://github.com/sstephenson/rbenv.git .rbenv
+RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> .bashrc
+RUN echo 'eval "$(rbenv init -)"' >> .bashrc
+RUN exec $SHELL
 
+RUN git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+
+RUN git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
+
+RUN exec $SHELL
+
+RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+RUN rbenv install $RUBYVERSION
+RUN rbenv global $RUBYVERSION
+RUN ruby -v
+
+CMD tmux new -t ruby-docker
 #configure postgres
 USER root
 RUN service postgresql start
 USER postgres
-createuser msf -P -S -R -D
+RUN createuser msf --no-password -S -R -D
 
 # run tmux when started
 
