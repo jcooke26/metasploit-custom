@@ -9,7 +9,7 @@ USER root
 
 # install tmux as a viewer
 
-RUN apt-get update && apt-get install tmux
+RUN apt-get update && apt-get -y install tmux
 
 
 #run tmux when the docker starts
