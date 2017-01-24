@@ -27,26 +27,16 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 #RUN apt-get -y install oracle-java8-installer
 
 # install Ruby
-USER seh
-WORKDIR /home/seh
-RUN git clone git://github.com/sstephenson/rbenv.git .rbenv
-RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> .bashrc
-RUN echo 'eval "$(rbenv init -)"' >> .bashrc
-RUN exec $SHELL
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import
+RUN curl -L https://get.rvm.io | bash -s stable 
+RUN /bin/bash -l -c "rvm requirements"
+RUN /bin/bash -l -c "rvm install 2.3.1"
+RUN /bin/bash -l -c "rvm use 2.3.1 --default"
+RUN /bin/bash -l -c "source /usr/local/rvm/scripts/rvm"
+RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+RUN /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && which bundle"
+RUN /bin/bash -l -c "which bundle"
 
-RUN git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-
-RUN git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
-
-RUN exec $SHELL
-
-RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-RUN rbenv install $RUBYVERSION
-RUN rbenv global $RUBYVERSION
-RUN ruby -v
-
-CMD tmux new -t ruby-docker
 #configure postgres
 USER root
 RUN service postgresql start
