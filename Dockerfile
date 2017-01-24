@@ -30,7 +30,7 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 # install Ruby
 
 USER seh
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN adducurl -L https://get.rvm.io | bash -s stable
 RUN source ~/.rvm/scripts/rvm
 RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
