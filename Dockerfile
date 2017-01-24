@@ -7,10 +7,16 @@ FROM ubuntu:latest
 WORKDIR /opt
 USER root
 
-# install tmux as a viewer
+# install Java
+RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get -y install oracle-java8-installer
 
+# install tmux as a viewer
 RUN apt-get update && apt-get -y install tmux
 
+# install Dependencies
+RUN apt-get update
+RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-dev libreadline5 libsqlite3-dev libpcap-dev git-core autoconf postgresql pgadmin3 curl zlib1g-dev libxml2-dev libxslt1-dev vncviewer libyaml-dev curl zlib1g-dev
 
 #run tmux when the docker starts
 
