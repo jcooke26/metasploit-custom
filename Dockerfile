@@ -32,13 +32,13 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 USER seh
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN curl -L https://get.rvm.io | bash -s stable
-RUN source home/seh/.rvm/scripts/rvm
-RUN echo "source /home/seh/.rvm/scripts/rvm" >> /home/seh/.bashrc
-RUN source /home/seh/.bashrc
-RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-RUN sudo rvm install $RUBYVERSION
-RUN rvm use $RUBYVERSION --default
-RUN ruby -v
+#RUN source home/seh/.rvm/scripts/rvm
+#RUN echo "source /home/seh/.rvm/scripts/rvm" >> /home/seh/.bashrc
+#RUN source /home/seh/.bashrc
+#RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+#RUN sudo rvm install $RUBYVERSION
+#RUN rvm use $RUBYVERSION --default
+#RUN ruby -v
 
 # run tmux when started
 
