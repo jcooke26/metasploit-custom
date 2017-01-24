@@ -41,7 +41,7 @@ RUN /bin/bash -l -c "which bundle"
 USER root
 RUN service postgresql start
 USER postgres
-RUN createuser msf --no-password -S -R -D
+#RUN createuser msf --no-password -S -R -D
 
 # run tmux when started
 
