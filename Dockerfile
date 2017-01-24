@@ -30,13 +30,14 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 USER seh
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN curl -L https://get.rvm.io | bash -s stable
-RUN /bin/bash -c "source ~/.rvm/scripts/rvm"
-RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
-RUN /bin/bash -c "source ~/.bashrc"
-RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-RUN rvm install $RUBYVERSION
-RUN rvm use $RUBYVERSION --default
-RUN ruby -v
+RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+RUN /bin/bash -c "source ~/.rvm/scripts/rvm && echo \"source ~/.rvm/scripts/rvm\" >> ~/.bashrc && source ~/.bashrc && rvm install $RUBYVERSION && rvm use $RUBYVERSION --default && ruby -v"
+#RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
+#RUN /bin/bash -c "source ~/.bashrc"
+#RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+#RUN rvm install $RUBYVERSION
+#RUN rvm use $RUBYVERSION --default
+#RUN ruby -v
 
 #configure postgres
 USER root
