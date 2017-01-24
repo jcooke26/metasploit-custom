@@ -1,9 +1,9 @@
 # use the latest version of Ubuntu - possibly change this down to 14.04 for a stable release if necessary
 
 FROM ubuntu:latest
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # install everything into /opt and as user root
-
 WORKDIR /opt
 USER root
 
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get -y install tmux
 
 # install Dependencies
 RUN apt-get update
-RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-dev libreadline5 libsqlite3-dev libpcap-dev git-core autoconf postgresql pgadmin3 curl zlib1g-dev libxml2-dev libxslt1-dev vncviewer libyaml-dev curl zlib1g-dev nmap
+RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-dev libreadline5 libsqlite3-dev libpcap-dev git-core autoconf postgresql pgadmin3 curl zlib1g-dev libxml2-dev libxslt1-dev vncviewer libyaml-dev curl zlib1g-dev nmap wget
 
 
 # install Java
@@ -32,13 +32,13 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 USER seh
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN curl -L https://get.rvm.io | bash -s stable
-#RUN source home/seh/.rvm/scripts/rvm
-#RUN echo "source /home/seh/.rvm/scripts/rvm" >> /home/seh/.bashrc
-#RUN source /home/seh/.bashrc
-#RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
-#RUN sudo rvm install $RUBYVERSION
-#RUN rvm use $RUBYVERSION --default
-#RUN ruby -v
+RUN source home/seh/.rvm/scripts/rvm
+RUN echo "source /home/seh/.rvm/scripts/rvm" >> /home/seh/.bashrc
+RUN source /home/seh/.bashrc
+RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
+RUN sudo rvm install $RUBYVERSION
+RUN rvm use $RUBYVERSION --default
+RUN ruby -v
 
 # run tmux when started
 
