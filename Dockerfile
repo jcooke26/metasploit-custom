@@ -1,7 +1,6 @@
 # use the latest version of Ubuntu - possibly change this down to 14.04 for a stable release if necessary
 
 FROM ubuntu:latest
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # install everything into /opt and as user root
 WORKDIR /opt
@@ -28,17 +27,22 @@ RUN apt-get -y install build-essential libreadline-dev libssl-dev libpq5 libpq-d
 #RUN apt-get -y install oracle-java8-installer
 
 # install Ruby
-
 USER seh
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN curl -L https://get.rvm.io | bash -s stable
-RUN source home/seh/.rvm/scripts/rvm
-RUN echo "source /home/seh/.rvm/scripts/rvm" >> /home/seh/.bashrc
-RUN source /home/seh/.bashrc
+RUN /bin/bash -c "source ~/.rvm/scripts/rvm"
+RUN echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
+RUN /bin/bash -c "source ~/.bashrc"
 RUN RUBYVERSION=$(wget https://raw.githubusercontent.com/rapid7/metasploit-framework/master/.ruby-version -q -O - )
 RUN sudo rvm install $RUBYVERSION
 RUN rvm use $RUBYVERSION --default
 RUN ruby -v
+
+#configure postgres
+USER root
+RUN service postgresql start
+USER postgres
+createuser msf -P -S -R -D
 
 # run tmux when started
 
